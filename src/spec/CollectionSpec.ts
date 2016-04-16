@@ -38,6 +38,13 @@ describe('A collection', () => {
       expect(collection.pop()).toBe(4);
       expect(collection.count()).toBe(0);
    });
+   
+   it('should return undefined when empty', () => {
+      collection.push(4);
+      expect(collection.count()).toBe(1);
+      expect(collection.pop()).toBe(4);
+      expect(collection.pop()).toBeUndefined();
+   });
 
    it('does not resize when too many items are removed', () => {
       expect(collection.count()).toBe(0);

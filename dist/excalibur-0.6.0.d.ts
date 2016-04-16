@@ -2210,16 +2210,18 @@ declare module ex {
          * method is part of the actor 'Action' fluent API allowing action chaining.
          * @param angleRadians  The angle to rotate to in radians
          * @param speed         The angular velocity of the rotation specified in radians per second
+         * @param rotationType  The [[RotationType]] to use for this rotation
          */
-        rotateTo(angleRadians: number, speed: number): ActionContext;
+        rotateTo(angleRadians: number, speed: number, rotationType?: RotationType): ActionContext;
         /**
          * This method will rotate an actor to the specified angle by a certain
          * time (in milliseconds) and return back the actor. This method is part
          * of the actor 'Action' fluent API allowing action chaining.
          * @param angleRadians  The angle to rotate to in radians
          * @param time          The time it should take the actor to complete the rotation in milliseconds
+         * @param rotationType  The [[RotationType]] to use for this rotation
          */
-        rotateBy(angleRadians: number, time: number): ActionContext;
+        rotateBy(angleRadians: number, time: number, rotationType?: RotationType): ActionContext;
         /**
          * This method will scale an actor to the specified size at the speed
          * specified (in magnitude increase per second) and return back the
@@ -2459,7 +2461,7 @@ declare module ex {
      * A [[Scene|scene]] has a basic lifecycle that dictacts how it is initialized, updated, and drawn. Once a [[Scene|scene]] is added to
      * the [[Engine|engine]] it will follow this lifecycle.
      *
-     * ![Scene Lifecycle](/assets/images/docs/SceneLifeCycle.png)
+     * ![Scene Lifecycle](/assets/images/docs/SceneLifecycle.png)
      *
      * ## Extending scenes
      *
@@ -2794,7 +2796,7 @@ declare module ex {
      * An [[Actor|actor]] has a basic lifecycle that dictacts how it is initialized, updated, and drawn. Once an actor is part of a
      * [[Scene|scene]], it will follow this lifecycle.
      *
-     * ![Actor Lifecycle](/assets/images/docs/ActorLifeCycle.png)
+     * ![Actor Lifecycle](/assets/images/docs/ActorLifecycle.png)
      *
      * ## Extending actors
      *
@@ -3108,6 +3110,9 @@ declare module ex {
          * Direct access to the actor's [[ActionQueue]]. Useful if you are building custom actions.
          */
         actionQueue: ex.Internal.Actions.ActionQueue;
+        /**
+         * [[ActionContext|Action context]] of the actor. Useful for scripting actor behavior.
+         */
         actions: ActionContext;
         /**
          * Convenience reference to the global logger
@@ -5221,7 +5226,7 @@ declare module ex {
      * // loop through dictionary and add to loader
      * for (var loadable in resources) {
      *   if (resources.hasOwnProperty(loadable)) {
-     *     loader.addResource(loadable);
+     *     loader.addResource(resources[loadable]);
      *   }
      * }
      *
@@ -5470,7 +5475,9 @@ declare module ex {
      * var label = new ex.Label();
      * label.x = 50;
      * label.y = 50;
-     * label.font = "10px Arial";
+     * label.fontFamily = "Arial";
+     * label.fontSize = 10;
+     * lable.fontUnit = ex.FontUnit.Px // pixels are the default
      * label.text = "Foo";
      * label.color = ex.Color.White;
      * label.textAlign = ex.TextAlign.Center;
@@ -5511,7 +5518,8 @@ declare module ex {
      * var game = new ex.Engine();
      *
      * var label = new ex.Label();
-     * label.font = "12px Foobar, Arial, Sans-Serif";
+     * label.fontFamily = "Foobar, Arial, Sans-Serif";
+     * label.fontSize = 10;
      * label.text = "Hello World";
      *
      * game.add(label);
@@ -6563,7 +6571,7 @@ declare module ex {
      * scene. Only one [[Scene]] can be active at a time. The engine does not update/draw any other
      * scene, which means any actors will not be updated/drawn if they are part of a deactivated scene.
      *
-     * ![Engine Lifecycle](/assets/images/docs/EngineLifeCycle.png)
+     * ![Engine Lifecycle](/assets/images/docs/EngineLifecycle.png)
      *
      * **Scene Graph**
      *

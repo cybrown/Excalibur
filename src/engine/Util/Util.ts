@@ -192,8 +192,11 @@ module ex.Util {
        * Removes elements from the end of the collection
        */
       public pop(): T {
-         this._endPointer = this._endPointer - 1 < 0 ? 0 : this._endPointer - 1;
-         return this._internalArray[this._endPointer];
+          if(this._endPointer <= 0) { 
+             return undefined;
+          }
+          this._endPointer--;
+          return this._internalArray[this._endPointer];
       }
 
       /**
